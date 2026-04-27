@@ -2,35 +2,28 @@
 
 import { useEffect, useState } from "react";
 
-function randomColor() {
-  return `hsl(${Math.floor(Math.random() * 360)}, 90%, 55%)`;
-}
-
 export default function Home() {
-  const [colors, setColors] = useState(["#ff0080", "#7928ca", "#0070f3"]);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setColors([randomColor(), randomColor(), randomColor()]);
+      setVisible((v) => !v);
     }, 2000);
     return () => clearInterval(interval);
   }, []);
 
-  const gradient = `linear-gradient(135deg, ${colors.join(", ")})`;
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-black">
       <h1
-        className="text-[12vw] font-black uppercase tracking-tight leading-none text-center"
+        className="text-[17vw] leading-none text-center uppercase whitespace-nowrap"
         style={{
-          backgroundImage: gradient,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-          transition: "background-image 2s ease",
+          fontFamily: "var(--font-anton)",
+          color: "#FFFF00",
+          opacity: visible ? 1 : 0,
+          transition: "opacity 2s ease",
         }}
       >
-        I LOVE SHALOOLOO
+        I LOVE SHAL
       </h1>
     </div>
   );
