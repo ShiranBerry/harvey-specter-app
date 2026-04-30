@@ -1,30 +1,25 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import BioSection from "@/components/BioSection";
+import PhotoBanner from "@/components/PhotoBanner";
+import ServicesSection from "@/components/ServicesSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import NewsSection from "@/components/NewsSection";
+import FooterSection from "@/components/FooterSection";
 
 export default function Home() {
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisible((v) => !v);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <h1
-        className="text-[17vw] leading-none text-center uppercase whitespace-nowrap"
-        style={{
-          fontFamily: "var(--font-anton)",
-          color: "#FFFF00",
-          opacity: visible ? 1 : 0,
-          transition: "opacity 2s ease",
-        }}
-      >
-        I LOVE SHAL
-      </h1>
-    </div>
+    <main>
+      <HeroSection />
+      <AboutSection />
+      <BioSection />
+      <PhotoBanner />
+      <ServicesSection />
+      <ProjectsSection />
+      <TestimonialsSection />
+      <NewsSection />
+      <FooterSection />
+    </main>
   );
 }
