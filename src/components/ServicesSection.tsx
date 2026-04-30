@@ -1,43 +1,9 @@
 import Image from "next/image";
+import type { SanityService } from "@/sanity/queries";
 
 const LABEL = "font-mono text-[14px] uppercase leading-[1.1] text-white";
 
-const DESC_PLACEHOLDER =
-  "Placeholder description of this service. Explain the value you provide and the outcomes clients can expect. Keep it to two or three sentences.";
-
-const SERVICES = [
-  {
-    number: "[ 1 ]",
-    name: "Brand Discovery",
-    desc: DESC_PLACEHOLDER,
-    img: "/services/brand-discovery.png",
-  },
-  {
-    number: "[ 2 ]",
-    name: "Web design & Dev",
-    desc: DESC_PLACEHOLDER,
-    img: "/services/web-design.png",
-  },
-  {
-    number: "[ 3 ]",
-    name: "Marketing",
-    desc: DESC_PLACEHOLDER,
-    img: "/services/marketing.png",
-  },
-  {
-    number: "[ 4 ]",
-    name: "Photography",
-    desc: DESC_PLACEHOLDER,
-    img: "/services/photography.png",
-  },
-] as const;
-
-function ServiceItem({
-  number,
-  name,
-  desc,
-  img,
-}: (typeof SERVICES)[number]) {
+function ServiceItem({ number, name, description, imageUrl }: SanityService) {
   return (
     <div className="flex flex-col gap-3 lg:gap-[9px]">
 
@@ -59,10 +25,10 @@ function ServiceItem({
           className="text-[14px] font-normal leading-[1.3] text-white"
           style={{ letterSpacing: "-0.56px" }}
         >
-          {desc}
+          {description}
         </p>
         <div className="relative size-[151px] overflow-hidden shrink-0">
-          <Image src={img} alt={name} fill style={{ objectFit: "cover" }} />
+          <Image src={imageUrl} alt={name} fill style={{ objectFit: "cover" }} />
         </div>
       </div>
 
@@ -79,10 +45,10 @@ function ServiceItem({
             className="text-[14px] font-normal leading-[1.3] text-white w-[393px]"
             style={{ letterSpacing: "-0.56px" }}
           >
-            {desc}
+            {description}
           </p>
           <div className="relative size-[151px] overflow-hidden shrink-0">
-            <Image src={img} alt={name} fill style={{ objectFit: "cover" }} />
+            <Image src={imageUrl} alt={name} fill style={{ objectFit: "cover" }} />
           </div>
         </div>
       </div>
@@ -91,16 +57,14 @@ function ServiceItem({
   );
 }
 
-export default function ServicesSection() {
+export default function ServicesSection({ services }: { services: SanityService[] }) {
   return (
     <section
       id="services"
       className="bg-black px-4 py-12 lg:px-8 lg:py-[80px] flex flex-col gap-8 lg:gap-12"
     >
-      {/* Section label */}
       <span className={LABEL}>[ services ]</span>
 
-      {/* [4] DELIVERABLES headline */}
       <div
         className="flex items-center justify-between text-white uppercase font-light leading-normal"
         style={{ fontSize: "32px", letterSpacing: "-0.08em" }}
@@ -109,10 +73,9 @@ export default function ServicesSection() {
         <span className="text-[32px] lg:text-[6.67vw]">Deliverables</span>
       </div>
 
-      {/* Service list */}
       <div className="flex flex-col gap-12">
-        {SERVICES.map((s) => (
-          <ServiceItem key={s.number} {...s} />
+        {services.map((s) => (
+          <ServiceItem key={s.name} {...s} />
         ))}
       </div>
     </section>

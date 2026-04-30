@@ -1,33 +1,10 @@
 import Image from "next/image";
+import type { SanityProject } from "@/sanity/queries";
 
 const LABEL = "font-mono text-[14px] uppercase leading-[1.1] text-[#1f1f1f]";
 
-const PROJECTS = [
-  {
-    img: "/projects/surfers-paradise.png",
-    tags: ["Social Media", "Photography"],
-    name: "Surfers paradise",
-    desktopH: 744,
-  },
-  {
-    img: "/projects/cyberpunk-caffe.png",
-    tags: ["Social Media", "Photography"],
-    name: "Cyberpunk caffe",
-    desktopH: 699,
-  },
-  {
-    img: "/projects/agency-976.png",
-    tags: ["Social Media", "Photography"],
-    name: "Agency 976",
-    desktopH: 699,
-  },
-  {
-    img: "/projects/minimal-playground.png",
-    tags: ["Social Media", "Photography"],
-    name: "Minimal Playground",
-    desktopH: 744,
-  },
-] as const;
+// Desktop heights alternate tall/short based on position
+const DESKTOP_HEIGHTS = [744, 699, 699, 744];
 
 function CornerBracket({ rotate }: { rotate?: number }) {
   return (
@@ -47,12 +24,10 @@ function CornerBracket({ rotate }: { rotate?: number }) {
 function CTAFrame() {
   return (
     <div className="flex gap-3 items-stretch">
-      {/* Left brackets */}
       <div className="flex flex-col justify-between shrink-0 w-4">
         <CornerBracket />
         <CornerBracket rotate={-90} />
       </div>
-      {/* Content */}
       <div className="flex-1 flex flex-col gap-[10px] py-3">
         <p
           className="italic font-normal text-[14px] text-[#1f1f1f] leading-[1.3]"
@@ -70,7 +45,6 @@ function CTAFrame() {
           </span>
         </div>
       </div>
-      {/* Right brackets */}
       <div className="flex flex-col justify-between shrink-0 w-4">
         <CornerBracket rotate={90} />
         <CornerBracket rotate={180} />
@@ -115,33 +89,31 @@ function ArrowIcon() {
 }
 
 function ProjectCard({
-  img,
+  imageUrl,
   tags,
   name,
   height,
   smallTitle,
 }: {
-  img: string;
-  tags: readonly string[];
+  imageUrl: string;
+  tags: string[];
   name: string;
   height: number;
   smallTitle?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-[10px] items-start w-full shrink-0">
-      {/* Photo */}
       <div
         className="relative w-full overflow-hidden flex flex-col justify-end p-4"
         style={{ height: `${height}px` }}
       >
-        <Image src={img} alt={name} fill style={{ objectFit: "cover" }} />
+        <Image src={imageUrl} alt={name} fill style={{ objectFit: "cover" }} />
         <div className="relative flex gap-3 items-center z-10">
           {tags.map((tag) => (
             <CategoryPill key={tag} label={tag} />
           ))}
         </div>
       </div>
-      {/* Name + arrow */}
       <div className="flex items-center justify-between w-full">
         <p
           className="font-black text-black uppercase leading-[1.1] whitespace-nowrap"
@@ -158,7 +130,7 @@ function ProjectCard({
   );
 }
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ projects }: { projects: SanityProject[] }) {
   return (
     <section id="projects" className="px-4 py-12 lg:px-8 lg:py-[80px]">
 
@@ -196,7 +168,7 @@ export default function ProjectsSection() {
 
       {/* ── Mobile: single column ── */}
       <div className="lg:hidden flex flex-col gap-6">
-        {PROJECTS.map((p) => (
+        {projects.map((p) => (
           <ProjectCard key={p.name} {...p} height={390} smallTitle />
         ))}
         <CTAFrame />
@@ -204,24 +176,19 @@ export default function ProjectsSection() {
 
       {/* ── Desktop: two-column staggered ── */}
       <div className="hidden lg:flex gap-[24px] items-end">
-
-        {/* Left column: card1 + card2 + CTA, spaced via justify-between */}
         <div className="flex-1 self-stretch flex">
           <div className="flex-1 flex flex-col justify-between">
-            <ProjectCard {...PROJECTS[0]} height={744} />
-            <ProjectCard {...PROJECTS[1]} height={699} />
+            {projects[0] && <ProjectCard {...projects[0]} height={DESKTOP_HEIGHTS[0]} />}
+            {projects[1] && <ProjectCard {...projects[1]} height={DESKTOP_HEIGHTS[1]} />}
             <div className="w-[465px]">
               <CTAFrame />
             </div>
           </div>
         </div>
-
-        {/* Right column: offset down by 240px, gap between cards */}
         <div className="flex-1 flex flex-col gap-[117px] pt-[240px]">
-          <ProjectCard {...PROJECTS[2]} height={699} />
-          <ProjectCard {...PROJECTS[3]} height={744} />
+          {projects[2] && <ProjectCard {...projects[2]} height={DESKTOP_HEIGHTS[2]} />}
+          {projects[3] && <ProjectCard {...projects[3]} height={DESKTOP_HEIGHTS[3]} />}
         </div>
-
       </div>
 
     </section>
