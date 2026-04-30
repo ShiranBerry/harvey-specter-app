@@ -1,6 +1,6 @@
-import { project } from './project'
+import { portfolio } from './portfolio'
 import { service } from './service'
 import { testimonial } from './testimonial'
 import { newsPost } from './newsPost'
 
-export const schemaTypes = [project, service, testimonial, newsPost]
+export const schemaTypes = [portfolio, service, testimonial, newsPost]

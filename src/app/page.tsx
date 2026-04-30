@@ -8,22 +8,22 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsSection from "@/components/NewsSection";
 import FooterSection from "@/components/FooterSection";
 import {
-  getProjects,
+  getPortfolio,
   getServices,
   getTestimonials,
   getNewsPosts,
-  type SanityProject,
+  type SanityPortfolio,
   type SanityService,
   type SanityTestimonial,
   type SanityNewsPost,
 } from "@/sanity/queries";
 
 // Fallback content — shown when Sanity has no documents yet
-const FALLBACK_PROJECTS: SanityProject[] = [
-  { name: "Surfers paradise", tags: ["Social Media", "Photography"], imageUrl: "/projects/surfers-paradise.png" },
-  { name: "Cyberpunk caffe", tags: ["Social Media", "Photography"], imageUrl: "/projects/cyberpunk-caffe.png" },
-  { name: "Agency 976", tags: ["Social Media", "Photography"], imageUrl: "/projects/agency-976.png" },
-  { name: "Minimal Playground", tags: ["Social Media", "Photography"], imageUrl: "/projects/minimal-playground.png" },
+const FALLBACK_PORTFOLIO: SanityPortfolio[] = [
+  { title: "Surfers Paradise", slug: "surfers-paradise", tags: ["Social Media", "Photography"], imageUrl: "/projects/surfers-paradise.png" },
+  { title: "Cyberpunk Caffe", slug: "cyberpunk-caffe", tags: ["Brand Identity", "Photography"], imageUrl: "/projects/cyberpunk-caffe.png" },
+  { title: "Agency 976", slug: "agency-976", tags: ["Brand Identity", "Web Design"], imageUrl: "/projects/agency-976.png" },
+  { title: "Minimal Playground", slug: "minimal-playground", tags: ["Editorial", "Typography"], imageUrl: "/projects/minimal-playground.png" },
 ];
 
 const FALLBACK_SERVICES: SanityService[] = [
@@ -47,8 +47,8 @@ const FALLBACK_NEWS: SanityNewsPost[] = [
 ];
 
 export default async function Home() {
-  const [projects, services, testimonials, newsPosts] = await Promise.all([
-    getProjects(),
+  const [portfolio, services, testimonials, newsPosts] = await Promise.all([
+    getPortfolio(),
     getServices(),
     getTestimonials(),
     getNewsPosts(),
@@ -61,7 +61,7 @@ export default async function Home() {
       <BioSection />
       <PhotoBanner />
       <ServicesSection services={services.length ? services : FALLBACK_SERVICES} />
-      <ProjectsSection projects={projects.length ? projects : FALLBACK_PROJECTS} />
+      <ProjectsSection projects={portfolio.length ? portfolio : FALLBACK_PORTFOLIO} />
       <TestimonialsSection testimonials={testimonials.length ? testimonials : FALLBACK_TESTIMONIALS} />
       <NewsSection posts={newsPosts.length ? newsPosts : FALLBACK_NEWS} />
       <FooterSection />

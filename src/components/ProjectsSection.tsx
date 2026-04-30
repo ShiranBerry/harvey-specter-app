@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { SanityProject } from "@/sanity/queries";
+import type { SanityPortfolio } from "@/sanity/queries";
 
 const LABEL = "font-mono text-[14px] uppercase leading-[1.1] text-[#1f1f1f]";
 
@@ -91,13 +91,13 @@ function ArrowIcon() {
 function ProjectCard({
   imageUrl,
   tags,
-  name,
+  title,
   height,
   smallTitle,
 }: {
   imageUrl: string;
   tags: string[];
-  name: string;
+  title: string;
   height: number;
   smallTitle?: boolean;
 }) {
@@ -107,7 +107,7 @@ function ProjectCard({
         className="relative w-full overflow-hidden flex flex-col justify-end p-4"
         style={{ height: `${height}px` }}
       >
-        <Image src={imageUrl} alt={name} fill style={{ objectFit: "cover" }} />
+        <Image src={imageUrl} alt={title} fill style={{ objectFit: "cover" }} />
         <div className="relative flex gap-3 items-center z-10">
           {tags.map((tag) => (
             <CategoryPill key={tag} label={tag} />
@@ -122,7 +122,7 @@ function ProjectCard({
             letterSpacing: smallTitle ? "-0.96px" : "-1.44px",
           }}
         >
-          {name}
+          {title}
         </p>
         <ArrowIcon />
       </div>
@@ -130,7 +130,7 @@ function ProjectCard({
   );
 }
 
-export default function ProjectsSection({ projects }: { projects: SanityProject[] }) {
+export default function ProjectsSection({ projects }: { projects: SanityPortfolio[] }) {
   return (
     <section id="projects" className="px-4 py-12 lg:px-8 lg:py-[80px]">
 
@@ -169,7 +169,7 @@ export default function ProjectsSection({ projects }: { projects: SanityProject[
       {/* ── Mobile: single column ── */}
       <div className="lg:hidden flex flex-col gap-6">
         {projects.map((p) => (
-          <ProjectCard key={p.name} {...p} height={390} smallTitle />
+          <ProjectCard key={p.title} {...p} height={390} smallTitle />
         ))}
         <CTAFrame />
       </div>

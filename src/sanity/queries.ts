@@ -1,9 +1,14 @@
 import { client } from './client'
 
-export type SanityProject = {
-  name: string
+export type SanityPortfolio = {
+  title: string
+  slug: string
   tags: string[]
   imageUrl: string
+  description?: string
+  client?: string
+  year?: number
+  link?: string
 }
 
 export type SanityService = {
@@ -33,9 +38,9 @@ export type SanityNewsPost = {
   href: string
 }
 
-export async function getProjects(): Promise<SanityProject[]> {
+export async function getPortfolio(): Promise<SanityPortfolio[]> {
   return client.fetch(
-    `*[_type == "project"] | order(order asc) { name, tags, "imageUrl": image.asset->url }`
+    `*[_type == "portfolio"] | order(order asc) { title, "slug": slug.current, tags, "imageUrl": image.asset->url, description, client, year, link }`
   )
 }
 
