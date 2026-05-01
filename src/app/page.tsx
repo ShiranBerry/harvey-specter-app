@@ -1,3 +1,5 @@
+export const revalidate = 30
+
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import BioSection from "@/components/BioSection";
